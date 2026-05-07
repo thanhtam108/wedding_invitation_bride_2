@@ -335,7 +335,7 @@ window.onload = () => {
       const firstDayIndex = (firstDate.getDay() + 6) % 7;
 
       if (titleEl) {
-        titleEl.textContent = `Thang ${String(month).padStart(2, "0")} - ${year}`;
+        titleEl.textContent = `Tháng ${String(month).padStart(2, "0")} - ${year}`;
       }
 
       if (weekdaysEl) {
