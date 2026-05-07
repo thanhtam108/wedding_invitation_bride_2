@@ -1,0 +1,403 @@
+window.onload = () => {
+  // MASTER INTRO TIMELINE
+  const intro = gsap.timeline({
+    defaults: {
+      ease: "power3.out",
+    },
+  });
+
+  // Title: top -> down
+  intro.fromTo(
+    "#title",
+    { y: -40, opacity: 0 },
+    { y: 0, opacity: 1, duration: 3 },
+    0,
+  );
+
+  // Decorative line: fade in
+  intro.fromTo("#line", { opacity: 0 }, { opacity: 1, duration: 3 }, 0);
+
+  // Groom: left -> right
+  intro.fromTo(
+    "#groom",
+    { x: -60, opacity: 0 },
+    { x: 0, opacity: 1, duration: 6.5 },
+    0,
+  );
+
+  // Ampersand: fade only
+  intro.fromTo("#amp", { opacity: 0 }, { opacity: 1, duration: 5 }, 0);
+
+  // Bride: right -> left
+  intro.fromTo(
+    "#bride",
+    { x: 60, opacity: 0 },
+    { x: 0, opacity: 1, duration: 6.5 },
+    0,
+  );
+
+  // Date: bottom -> top
+  intro.fromTo(
+    "#date",
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 3, delay: 1.5 },
+    0,
+  );
+
+  // ENVELOPE IDLE ENTRANCE
+  intro.fromTo(
+    ".wrapper",
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 5 },
+    0,
+  );
+
+  // Grab music and UI elements early so the scroll trigger can attempt autoplay
+  const music = document.getElementById("bg-music");
+  const musicBtn = document.getElementById("music-btn");
+  const topBtn = document.getElementById("top-btn");
+
+  let isPlaying = false;
+
+  // Register ScrollTrigger and animate details section when it scrolls into view
+  gsap.registerPlugin(ScrollTrigger);
+
+  const detailsTL = gsap.timeline({
+    defaults: { ease: "power3.out" },
+    scrollTrigger: {
+      trigger: "#details",
+      start: "top 80%",
+      once: true,
+      onEnter: () => {
+        // Try to start music when the user scrolls to the details section
+        tryPlayMusic();
+      },
+    },
+  });
+
+  // Keep details section animation slide-only (no fade).
+  gsap.set(
+    [
+      "#details-line",
+      "#intro",
+      ".details-groom",
+      ".details-amp",
+      ".details-bride",
+      ".details-family",
+      ".save-the-date",
+      ".diagonal-date",
+    ],
+    { opacity: 1 },
+  );
+
+  detailsTL.fromTo("#details-line", { x: -30 }, { x: 0, duration: 5.0 }, 0);
+
+  detailsTL.fromTo("#intro", { y: 50 }, { y: 0, duration: 5.0 }, 0.1);
+
+  detailsTL.fromTo(".details-groom", { x: -100 }, { x: 0, duration: 5.0 }, 0.2);
+
+  detailsTL.fromTo(".details-amp", { y: 25 }, { y: 0, duration: 5.0 }, 0.35);
+
+  detailsTL.fromTo(".details-bride", { x: 100 }, { x: 0, duration: 5.0 }, 0.2);
+
+  detailsTL.fromTo(".details-family", { y: 50 }, { y: 0, duration: 5.0 }, 0.6);
+
+  detailsTL.fromTo(".save-the-date", { x: -100 }, { x: 0, duration: 5.0 }, 0.2);
+
+  detailsTL.fromTo(".diagonal-date", { x: 50 }, { x: 0, duration: 5.0 }, 0.2);
+  // Pop-up animation for the Bride's photo (Left)
+  gsap.fromTo(
+    ".save-photo-left",
+    {
+      y: 150, // Start hidden deep inside the envelope
+      x: 30, // Start slightly centered
+      rotation: 0, // Start straight
+      scale: 0.8, // Start slightly smaller
+    },
+    {
+      y: -15, // Your original CSS position
+      x: 0,
+      rotation: -8, // Your original CSS rotation
+      scale: 1,
+      duration: 1.2,
+      ease: "back.out(1.2)", // Gives a nice, gentle spring effect
+      scrollTrigger: {
+        trigger: ".save-date-envelope-zone",
+        start: "top 80%", // Triggers when the top of the envelope is 80% down the screen
+        toggleActions: "play none none reverse", // Plays on scroll down, reverses if you scroll back up
+      },
+    },
+  );
+
+  // Pop-up animation for the Groom's photo (Right)
+  gsap.fromTo(
+    ".save-photo-right",
+    {
+      y: 150,
+      x: -30,
+      rotation: 0,
+      scale: 0.8,
+    },
+    {
+      y: 6, // Your original CSS position
+      x: 0,
+      rotation: 8, // Your original CSS rotation
+      scale: 1,
+      duration: 1.2,
+      delay: 0.15, // Slight delay so the groom's photo follows the bride's
+      ease: "back.out(1.2)",
+      scrollTrigger: {
+        trigger: ".save-date-envelope-zone",
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
+
+  const firstInteractionEvents = [
+    "pointerdown",
+    "touchstart",
+    "touchend",
+    "click",
+    "mouseup",
+    "keydown",
+    "scroll",
+    "wheel",
+  ];
+
+  const removeFirstInteractionListeners = () => {
+    firstInteractionEvents.forEach((evt) => {
+      window.removeEventListener(evt, onFirstInteraction);
+      document.removeEventListener(evt, onFirstInteraction, true);
+    });
+  };
+
+  // Try to play music helper (used by on-load, scroll trigger, and first interactions)
+  const tryPlayMusic = () => {
+    if (!music || isPlaying) return;
+    const p = music.play();
+    if (p !== undefined) {
+      p.then(() => {
+        isPlaying = true;
+        removeFirstInteractionListeners();
+        if (musicBtn) {
+          musicBtn.textContent = "❚❚";
+          musicBtn.classList.remove("pulse");
+        }
+      }).catch(() => {
+        // Autoplay blocked — add a visual cue for user interaction
+        if (musicBtn) {
+          musicBtn.textContent = "♪";
+          musicBtn.classList.add("pulse");
+        }
+      });
+    } else {
+      // play() returned undefined in some browsers — assume playing
+      isPlaying = true;
+      removeFirstInteractionListeners();
+      if (musicBtn) {
+        musicBtn.textContent = "❚❚";
+        musicBtn.classList.remove("pulse");
+      }
+    }
+  };
+
+  const onFirstInteraction = () => {
+    tryPlayMusic();
+  };
+
+  firstInteractionEvents.forEach((evt) => {
+    const opts =
+      evt === "touchstart" || evt === "scroll" || evt === "wheel"
+        ? { passive: true }
+        : undefined;
+
+    const captureOpts =
+      evt === "touchstart" ||
+      evt === "touchend" ||
+      evt === "scroll" ||
+      evt === "wheel"
+        ? { passive: true, capture: true }
+        : { capture: true };
+
+    window.addEventListener(evt, onFirstInteraction, opts);
+    document.addEventListener(evt, onFirstInteraction, captureOpts);
+  });
+
+  // Attempt autoplay on load
+  tryPlayMusic();
+
+  // Music toggle
+  musicBtn.addEventListener("click", () => {
+    if (!isPlaying) {
+      const p = music.play();
+      if (p !== undefined) {
+        p.then(() => {
+          isPlaying = true;
+          musicBtn.textContent = "❚❚";
+          musicBtn.classList.remove("pulse");
+        }).catch(() => {
+          // still blocked
+          musicBtn.classList.add("pulse");
+        });
+      } else {
+        // Play returned undefined; assume playing
+        isPlaying = true;
+        musicBtn.textContent = "❚❚";
+        musicBtn.classList.remove("pulse");
+      }
+    } else {
+      music.pause();
+      isPlaying = false;
+      musicBtn.textContent = "♪";
+    }
+  });
+
+  // Back to top
+  topBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Show / hide back-to-top button
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      topBtn.classList.remove("opacity-0", "pointer-events-none");
+    } else {
+      topBtn.classList.add("opacity-0", "pointer-events-none");
+    }
+  });
+
+  // Envelope size customization via data attributes (data-env-width / data-env-height)
+  const wrappers = document.querySelectorAll(".wrapper");
+  const setVar = (el, dataKey, cssVar) => {
+    const v = el.dataset[dataKey];
+    if (!v) return;
+    // allow plain integers or decimals (treated as px) or full CSS values ("22rem", "50vw", "320px")
+    const cssVal = /^(\d+(\.\d+)?|\d+)$/.test(v) ? `${v}px` : v;
+    el.style.setProperty(cssVar, cssVal);
+  };
+
+  wrappers.forEach((item) => {
+    setVar(item, "envWidth", "--env-width");
+    setVar(item, "envHeight", "--env-height");
+  });
+
+  const wrapper = document.querySelector(".wrapper");
+
+  // Open envelope when user taps the wax seal OR scrolls to it
+  const waxSeal = document.querySelector(".wax-seal");
+  if (waxSeal && wrapper) {
+    const openEnvelope = () => {
+      wrapper.classList.add("open");
+    };
+
+    // Keep the manual click/keyboard controls for accessibility
+    waxSeal.addEventListener("click", openEnvelope);
+    waxSeal.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openEnvelope();
+      }
+    });
+
+    // NEW: Add ScrollTrigger to automate the opening
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "top 60%", // Triggers when the top of the envelope reaches 60% down the viewport
+      once: true, // Ensures it only opens once and doesn't replay if they scroll up and down
+      onEnter: () => {
+        openEnvelope();
+      },
+    });
+  }
+
+  const calendarCard = document.querySelector(".calendar-card");
+  if (calendarCard) {
+    const year = Number.parseInt(calendarCard.dataset.calendarYear || "", 10);
+    const month = Number.parseInt(calendarCard.dataset.calendarMonth || "", 10);
+    const highlightDay = Number.parseInt(
+      calendarCard.dataset.calendarHighlight || "",
+      10,
+    );
+
+    if (
+      Number.isInteger(year) &&
+      Number.isInteger(month) &&
+      month >= 1 &&
+      month <= 12
+    ) {
+      const titleEl = calendarCard.querySelector(".calendar-title");
+      const weekdaysEl = calendarCard.querySelector(".calendar-weekdays");
+      const gridEl = calendarCard.querySelector(".calendar-grid");
+      const weekdayLabels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+      const firstDate = new Date(year, month - 1, 1);
+      const totalDays = new Date(year, month, 0).getDate();
+      const firstDayIndex = (firstDate.getDay() + 6) % 7;
+
+      if (titleEl) {
+        titleEl.textContent = `Thang ${String(month).padStart(2, "0")} - ${year}`;
+      }
+
+      if (weekdaysEl) {
+        weekdaysEl.innerHTML = weekdayLabels
+          .map((label) => `<div class="calendar-weekday">${label}</div>`)
+          .join("");
+      }
+
+      if (gridEl) {
+        const cells = [];
+
+        for (let index = 0; index < firstDayIndex; index += 1) {
+          cells.push('<div class="calendar-day-empty"></div>');
+        }
+
+        for (let day = 1; day <= totalDays; day += 1) {
+          const isHighlight = day === highlightDay;
+          cells.push(
+            `<div class="calendar-day${isHighlight ? " is-highlight" : ""}"><span>${day}</span></div>`,
+          );
+        }
+
+        gridEl.innerHTML = cells.join("");
+      }
+    }
+  }
+
+  const venueSection = document.querySelector(".venue-section");
+  if (venueSection) {
+    const headingEl = venueSection.querySelector(".venue-heading");
+    const nameEl = venueSection.querySelector(".venue-name");
+    const addressEl = venueSection.querySelector(".venue-address");
+    const mapEl = venueSection.querySelector(".venue-map");
+    const mapLinkEl = venueSection.querySelector(".venue-map-link");
+    const {
+      venueHeading,
+      venueName,
+      venueAddress,
+      mapEmbedUrl,
+      mapLinkUrl,
+      mapLinkLabel,
+    } = venueSection.dataset;
+
+    if (headingEl && venueHeading) {
+      headingEl.textContent = venueHeading;
+    }
+
+    if (nameEl && venueName) {
+      nameEl.textContent = venueName;
+    }
+
+    if (addressEl && venueAddress) {
+      addressEl.textContent = venueAddress;
+    }
+
+    if (mapEl && mapEmbedUrl) {
+      mapEl.src = mapEmbedUrl;
+    }
+
+    if (mapLinkEl && mapLinkUrl) {
+      mapLinkEl.href = mapLinkUrl;
+      mapLinkEl.textContent = mapLinkLabel || "Xem Chỉ Đường";
+    }
+  }
+};

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>THƯ MỜI CƯỚI</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Birthstone&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Dancing+Script:wght@400..700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind font config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        script: ['"Beau Rivage"', 'cursive'],
+                        handwritten: ['"Birthstone"', 'cursive'],
+                        names: ['"Dancing Script"', 'cursive'],
+                        fami: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-overlay overflow-auto">
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col items-center text-center px-1 md:px-4 pt-20 md:pt-30">
+
+
+        <!-- Title -->
+        <h1 id="title" class="font-script text-4xl md:text-5xl text-black-700 mb-6 opacity-0">
+            Thư Mời Cưới
+        </h1>
+
+        <!-- Decorative line -->
+        <div id="line" class="w-24 h-px bg-rose-400 mb-8 opacity-0">
+        </div>
+
+        <!-- Names -->
+        <div class="flex items-center gap-4 mb-6">
+
+            <span id="groom" class="font-handwritten text-4xl md:text-7xl text-black-800 opacity-0">
+                Vỉnh Thịnh
+            </span>
+
+            <span id="amp" class="font-script text-2xl md:text-6xl text-black-600 opacity-0">
+                &
+            </span>
+
+            <span id="bride" class="font-handwritten text-4xl md:text-7xl text-black-800 opacity-0">
+                Thanh Nhàn
+            </span>
+
+        </div>
+
+        <!-- Date -->
+        <p id="date" class="tracking-widest uppercase text-gray-600 opacity-0">
+            26 · 05 · 2026
+        </p>
+        <p id="date" class="tracking-widest  text-gray-600 opacity-0">
+            (Nhằm ngày 10 · 04 · Bính Ngọ)
+        </p>
+
+        <br />
+        <br />
+        <br />
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <!-- Envelope wrapper: change data-env-width / data-env-height to customize size (numbers are in px or include unit) -->
+        <div class="wrapper" data-env-width="360" data-env-height="260">
+            <div class="lid one"></div>
+            <div class="lid two"></div>
+            <div class="envelope"></div>
+            <div class="bot_cover"></div>
+            <div class="letter">
+                <img class="main-image" src="assets/images/demo1.png" alt="">
+            </div>
+            <!-- Wax seal centered on the envelope flap junction -->
+            <img class="wax-seal" src="assets/images/wax.png" alt="Wax Seal" role="button" tabindex="0">
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <br>
+
+        <section id="details" class="min-h-[20vh] flex flex-col items-center text-center px-1 md:px-6 md:pt-8">
+            <div id="details-line" class="w-24 h-px bg-rose-400 mb-8 opacity-0"></div>
+
+            <h1 id="intro" class="font-script text-3xl md:text-3xl text-black-700 mb-6 opacity-0">
+                Kính mời quý khách đến dự lễ đính hôn của gia đình chúng tôi
+            </h1>
+
+            <br>
+
+            <span class="details-groom font-names text-5xl md:text-5xl text-rose-800 opacity-0">
+                Nguyễn Vỉnh Thịnh
+            </span>
+
+            <br>
+
+            <span class="details-amp font-names text-5xl md:text-5xl text-black-800 opacity-0">
+                và
+            </span>
+
+            <br>
+
+            <span class="details-bride font-names text-5xl md:text-5xl text-rose-800 opacity-0">
+                Lê Thanh Nhàn
+            </span>
+
+            <br>
+            <br>
+
+            <table class="w-full md:w-2/3 mb-6" style="font-family: 'Times New Roman', serif;">
+                <thead>
+                    <tr style="pointer-events: none;">
+                        <th class="details-family text-center text-1xl md:text-1xl text-black-800 pb-4"
+                            style="font-weight: normal;">
+                            Nhà gái</th>
+                        <th class="details-family text-center text-1xl md:text-1xl text-black-800 pb-4"
+                            style="font-weight: normal;">
+                            Nhà trai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="details-family" style="pointer-events: none; opacity: 0;">
+                        <td class="text-center text-1xl md:text-1xl text-black-800">
+                            <b>Ông Lê Thanh Hoàng<br>
+                                Bà Võ Thanh Ngọc Phương</b>
+                        </td>
+                        <td class="text-center text-1xl md:text-1xl text-black-800">
+                            <b>Ông Nguyễn Văn Sơn<br>
+                                Bà Trần Thị Huệ</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <br>
+
+
+            <div class="date-wrapper">
+                <!-- <p class="save-the-date">Save The Date</p> -->
+                <span class="save-the-date font-script text-left text-5xl md:text-5xl text-grey opacity-0">
+                    Ngày chung đôi
+                </span>
+                <div class="diagonal-date">
+                    <span class="day">26</span>
+                    <span class="separator">/</span>
+                    <span class="month">05</span>
+                </div>
+            </div>
+            <br><br><br><br><br><br><br><br>
+
+            <div class="save-date-envelope-zone">
+                <div class="wrapper save-date-envelope" data-env-width="340" data-env-height="230"
+                    aria-label="Save The Date Envelope">
+                    <div class="lid one"></div>
+                    <div class="lid two"></div>
+                    <div class="envelope"></div>
+                    <div class="bot_cover"></div>
+                    <div class="letter">
+                        <div class="save-photo save-photo-left">
+                            <img src="assets/images/anh_cuoi11.jpg" alt="Ảnh cô dâu">
+                        </div>
+                        <div class="save-photo save-photo-right">
+                            <img src="assets/images/anh_cuoi22.jpg" alt="Ảnh chú rể">
+                        </div>
+                    </div>
+                    <img class="save-seal" src="assets/images/wax.png" alt="Wax Seal">
+                </div>
+            </div>
+            <br><br><br><br><br><br>
+
+            <div class="invitation-cards">
+                <article class="invitation-card">
+                    <p class="invitation-card-title">Lễ Đính Hôn</p>
+                    <p class="invitation-card-time">09:00 · Thứ Ba</p>
+                    <p class="invitation-card-date">26.05.2026</p>
+                    <p class="invitation-card-lunar">(Nhằm ngày 10 tháng 04 năm Bính Ngọ)</p>
+                    <p class="invitation-card-place">Tại Tư Gia Nhà Gái</p>
+                </article>
+
+                <article class="invitation-card">
+                    <p class="invitation-card-title">Tiệc Mừng Lễ Đính Hôn</p>
+                    <p class="invitation-card-time">19:00 / 10:00 · Thứ Hai / Thú Ba</p>
+                    <p class="invitation-card-date">25.05.2026</p>
+                    <p class="invitation-card-lunar">Trân trọng kính mời quý khách đến chung vui</p>
+                    <p class="invitation-card-place">Địa điểm: Tư Gia Nhà Gái</p>
+                </article>
+            </div>
+
+            <div class="calendar-card-wrap">
+                <article class="calendar-card" data-calendar-year="2026" data-calendar-month="5"
+                    data-calendar-highlight="26">
+                    <p class="calendar-card-heading">Ngày Đặc Biệt</p>
+                    <div class="calendar-box">
+                        <p class="calendar-title"></p>
+                        <div class="calendar-weekdays"></div>
+                        <div class="calendar-grid"></div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="venue-section" data-venue-heading="Địa Điểm Tổ Chức" data-venue-name="Tư Gia Nhà Gái"
+                data-venue-address="64K/4 khóm Phước Hanh A, phường Phước Hậu, tỉnh Vĩnh Long"
+                data-map-embed-url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d500.8256167933762!2d105.96623726214648!3d10.224660974994345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310a83001273b17f%3A0x4aacae3f0821a554!2sPoYomost!5e1!3m2!1svi!2s!4v1777991370699!5m2!1svi!2s"
+                data-map-link-url="https://www.google.com/maps/place/PoYomost/@10.224661,105.9662373,115m/data=!3m1!1e3!4m6!3m5!1s0x310a83001273b17f:0x4aacae3f0821a554!8m2!3d10.2247474!4d105.9665868!16s%2Fg%2F11z261n1fy!5m1!1e1?hl=vi-VN&entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                data-map-link-label="Xem Chỉ Đường Trên Google Maps">
+                <p class="venue-heading"></p>
+                <p class="venue-name"></p>
+                <p class="venue-address"></p>
+
+                <div class="venue-map-card">
+                    <iframe class="venue-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="Bản đồ địa điểm tổ chức"></iframe>
+                </div>
+
+                <a class="venue-map-link" target="_blank" rel="noreferrer"></a>
+            </div>
+
+            <!-- <section class="photo-gallery-section" aria-label="Thư viện ảnh cưới">
+                <p class="photo-gallery-heading">Thư Mời Cưới</p>
+
+                <div class="photo-gallery-grid">
+                    <figure class="photo-slot slot-short">
+                        <img src="assets/images/anh_cuoi_1.jpg" alt="Ảnh cưới 1">
+                    </figure>
+
+                    <figure class="photo-slot slot-short">
+                        <img src="assets/images/anh_cuoi_2.jpg" alt="Ảnh cưới 2">
+                    </figure>
+
+                    <figure class="photo-slot slot-tall">
+                        <img src="assets/images/AT_058891.jpg" alt="Ảnh cưới 3">
+                    </figure>
+
+                    <figure class="photo-slot slot-tall">
+                        <img src="assets/images/AT_056752222.jpg" alt="Ảnh cưới 4">
+                    </figure>
+
+                    <div class="photo-slot slot-placeholder" aria-label="Ô trống thêm ảnh">Thêm ảnh</div>
+                    <div class="photo-slot slot-placeholder" aria-label="Ô trống thêm ảnh">Thêm ảnh</div>
+
+                    <figure class="photo-slot slot-wide">
+                        <img src="assets/images/anh_cuoi.jpg" alt="Ảnh cưới ngang">
+                    </figure>
+                </div>
+            </section> -->
+
+            <br><br><br><br><br><br>
+
+
+
+        </section>
+
+
+
+
+    </section>
+
+
+    <audio id="bg-music" loop>
+        <source src="assets/audio/nhacnen.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Music Toggle Button -->
+    <button id="music-btn"
+        class="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg">
+        ♪
+    </button>
+
+    <!-- Back to Top Button -->
+    <button id="top-btn"
+        class="fixed bottom-6 right-5 z-50 w-12 h-12 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg opacity-0 pointer-events-none">
+        ↑
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
